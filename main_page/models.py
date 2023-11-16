@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.validators import MaxValueValidator
 class StringRun(models.Model):
     title_text = models.CharField(max_length=100, verbose_name='Enter your title text')
     description_text = models.TextField(verbose_name='Enter your description text')
@@ -30,3 +30,16 @@ class FilmModel(models.Model):
     class Meta:
         verbose_name = 'Film'
         verbose_name_plural = 'Films'
+
+
+class AfishaTable(models.Model):
+    film_name = models.CharField(max_length=100, verbose_name='enter your film name')
+    time_hall = models.TimeField(verbose_name='enter this time')
+    hall = models.PositiveIntegerField(validators=[MaxValueValidator(5)])
+
+    def __str__(self):
+        return self.film_name
+
+
+class Slider(models.Model):
+    slide = models.URLField()

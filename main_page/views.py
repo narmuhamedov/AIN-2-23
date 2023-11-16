@@ -1,14 +1,18 @@
 from django.shortcuts import render, get_object_or_404
-from .models import StringRun, FilmModel
+from .models import StringRun, FilmModel, AfishaTable, Slider
 
 def main_view(request):
     if request.method == 'GET':
         string_ = StringRun.objects.all()
         film_list = FilmModel.objects.all()
+        afisha_list = AfishaTable.objects.all()
+        slider = Slider.objects.all()
         return render(request, template_name='main_page/index.html',
                       context={
                           'string_': string_,
                           'film_list': film_list,
+                          'afisha_list': afisha_list,
+                          'slider': slider,
                       })
 
 
