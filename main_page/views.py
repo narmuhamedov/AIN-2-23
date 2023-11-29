@@ -28,9 +28,17 @@ class FilmDetailView(generic.DetailView):
         film_id = self.kwargs.get('id')
         return get_object_or_404(FilmModel, id=film_id)
 
-# def film_detail_view(request, id):
-#     if request.method == 'GET':
-#         film_id = get_object_or_404(FilmModel, id=id)
-#         return render(request, template_name='main_page/film_detail.html', context={
-#             'film_id': film_id
-#         })
+class Search(generic.ListView):
+    template_name = "main_page/index.html"
+    context_object_name = "film_list"
+    paginate_by = 5
+
+    def get_queryset(self):
+        return FilmModel.objects.filter(
+            title__icontains=self.request.GET.get("q")
+        )
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["q"] = self.request.GET.get("q")
+        return context
